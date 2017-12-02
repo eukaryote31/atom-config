@@ -24,7 +24,9 @@ type CompleteReply = {
   }
 };
 
-const iconHTML = `<img src='${__dirname}/../static/logo.svg' style='width: 100%;'>`;
+const iconHTML = `<img src='${
+  __dirname
+}/../static/logo.svg' style='width: 100%;'>`;
 
 const regexes = {
   // pretty dodgy, adapted from http://stackoverflow.com/a/8396658
@@ -79,7 +81,11 @@ export default function() {
     excludeLowerPriority: false,
 
     // Required: Return a promise, an array of suggestions, or null.
-    getSuggestions({ editor, bufferPosition, prefix }: Autocomplete) {
+    getSuggestions({
+      editor,
+      bufferPosition,
+      prefix
+    }: Autocomplete): Promise<Array<Object>> | null {
       const kernel = store.kernel;
 
       if (!kernel || kernel.executionState !== "idle") {
@@ -103,7 +109,14 @@ export default function() {
         return null;
       }
 
-      if (prefix.trim().length < 3) {
+      let minimumWordLength = atom.config.get(
+        "autocomplete-plus.minimumWordLength"
+      );
+      if (typeof minimumWordLength !== "number") {
+        minimumWordLength = 3;
+      }
+
+      if (prefix.trim().length < minimumWordLength) {
         return null;
       }
 

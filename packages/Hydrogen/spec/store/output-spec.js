@@ -10,12 +10,7 @@ describe("reduceOutputs", () => {
   it("puts new outputs at the end by default", () => {
     const outputs = [
       { output_type: "stream", name: "stdout", text: "Woo" },
-      {
-        output_type: "error",
-        ename: "well",
-        evalue: "actually",
-        traceback: []
-      }
+      { output_type: "error", ename: "well", evalue: "actually", traceback: [] }
     ];
     const newOutputs = reduceOutputs(outputs, {
       output_type: "display_data",
@@ -85,11 +80,7 @@ describe("reduceOutputs", () => {
   it("keeps respective streams together", () => {
     const outputs = [
       { name: "stdout", text: "hello", output_type: "stream" },
-      {
-        name: "stderr",
-        text: "errors are",
-        output_type: "stream"
-      }
+      { name: "stderr", text: "errors are", output_type: "stream" }
     ];
     const newOutputs = reduceOutputs(outputs, {
       name: "stdout",
@@ -163,7 +154,8 @@ describe("OutputStore", () => {
       expect(store.position).toEqual({
         lineHeight: 10,
         lineLength: 0,
-        editorWidth: 0
+        editorWidth: 0,
+        charWidth: 0
       });
     });
     it("checks if output lineLength position gets updated", () => {
@@ -171,7 +163,8 @@ describe("OutputStore", () => {
       expect(store.position).toEqual({
         lineHeight: 0,
         lineLength: 10,
-        editorWidth: 0
+        editorWidth: 0,
+        charWidth: 0
       });
     });
     it("checks if output editorWidth position gets updated", () => {
@@ -179,19 +172,22 @@ describe("OutputStore", () => {
       expect(store.position).toEqual({
         lineHeight: 0,
         lineLength: 0,
-        editorWidth: 10
+        editorWidth: 10,
+        charWidth: 0
       });
     });
     it("checks if all output positions get updated", () => {
       store.updatePosition({
         lineHeight: 10,
         lineLength: 10,
-        editorWidth: 10
+        editorWidth: 10,
+        charWidth: 12
       });
       expect(store.position).toEqual({
         lineHeight: 10,
         lineLength: 10,
-        editorWidth: 10
+        editorWidth: 10,
+        charWidth: 12
       });
     });
   });
